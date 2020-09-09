@@ -1,0 +1,8 @@
+@import "../../../styles/vars";
+
+.wrapper {
+  @include fill-all;
+  @include flex-center;
+  height: 100%;
+  width: 100%;
+}
