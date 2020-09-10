@@ -7,20 +7,20 @@ import { getCelsiusTemp, getFahrenheitTemp } from '../../utils';
 export const formattedWeatherList = createSelector(
   state => state.weather,
   weather => (weather.collection.list
-    ? Array.from((weather.collection.list.reduce((res, {
+    ? Array.from(weather.collection.list.reduce((res, {
       [weatherModel.MAIN]: { [weatherModel.TEMP]: temp },
       [weatherModel.DATE]: date
     }) => {
       const curDay = moment(date).format('DD MMM YY');
       const curHour = moment(date).format('LT');
       const hasCurDay = !!res.has(curDay);
-      const curTemp = Math.round(temp);
+      const curTemp = temp;
 
       const curBarChar = {
-        hour: curHour,
-        temp_k: curTemp,
-        temp_c: Math.round(getCelsiusTemp(curTemp)),
-        temp_f: Math.round(getFahrenheitTemp(curTemp))
+        [weatherModel.HOUR]: curHour,
+        [weatherModel.TEMP_K]: curTemp,
+        [weatherModel.TEMP_C]: Math.round(getCelsiusTemp(curTemp)),
+        [weatherModel.TEMP_F]: Math.round(getFahrenheitTemp(curTemp))
       };
       let curDayData;
       if (hasCurDay) {
@@ -28,22 +28,24 @@ export const formattedWeatherList = createSelector(
         const len = data.barChars.length;
         curDayData = {
           ...data,
-          avrg_k: Math.round((data.avrg_k * len + curTemp) / (len + 1)),
+          [weatherModel.TEMP_K]: (data[weatherModel.TEMP_K] * len + curTemp) / (len + 1),
           barChars: [ ...data.barChars, curBarChar ]
         };
       } else {
         curDayData = {
-          avrg_k: curTemp,
+          [weatherModel.TEMP_K]: curTemp,
           barChars: [ curBarChar ],
-          date: curDay
+          [weatherModel.DAY]: curDay,
+          index: Array.from(res.keys()).length
         };
       }
 
-      curDayData.avrg_c = Math.round(getCelsiusTemp(curDayData.avrg_k));
-      curDayData.avrg_f = Math.round(getFahrenheitTemp(curDayData.avrg_k));
+      curDayData[weatherModel.TEMP_C] = Math.round(getCelsiusTemp(curDayData[weatherModel.TEMP_K]));
+      curDayData[weatherModel.TEMP_F] = Math.round(getFahrenheitTemp(curDayData[weatherModel.TEMP_K]));
+
       res.set(curDay, curDayData);
 
       return res;
-    }, new Map([]))).values())
+    }, new Map([])).values())
     : [])
 );
