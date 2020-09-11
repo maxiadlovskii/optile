@@ -15,8 +15,9 @@ export const DaysList = ({ list, curDate, tempKey, handleBack,
   showForwardButton,
   showBackButton, handleCardClick,
   swipeHandlers }) => {
-  const styles = useStyles();
+
   const { isMobile } = useIsMobile();
+  const styles = useStyles({ isMobile });
 
   return (
     <article className={ styles.wrapper } { ...swipeHandlers }>
