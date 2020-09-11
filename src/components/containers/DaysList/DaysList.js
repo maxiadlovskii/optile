@@ -15,7 +15,7 @@ export const DaysList = () => {
   const pageSize = useMemo(() => (isMobile ? 1 : 3), [ isMobile ]);
   const [ curIndex, setCurIndex ] = useState(Number(urlIndex) || 0);
   const collection = useSelector(formattedWeatherList);
-  window.collection = collection;
+
   const pageContent = useMemo(() => {
     if (!collection) { return []; }
     const firstIndexCandidate = curIndex - Math.floor((pageSize - 1) / 2);
