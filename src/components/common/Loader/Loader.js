@@ -1,5 +1,9 @@
 import React from 'react';
 
-import styles from './Loader.module.scss';
+import { useStyles } from './LoaderStyles';
 
-export const Loader = () => <span className={ styles.wrapper }>'Loading...'</span>;
+export const Loader = () => {
+  const styles = useStyles();
+
+  return <span className={ styles.wrapper }>'Loading...'</span>;
+};

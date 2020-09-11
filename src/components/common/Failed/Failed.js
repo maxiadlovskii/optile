@@ -1,5 +1,9 @@
 import React from 'react';
 
-import styles from './Failed.module.scss';
+import { useStyles } from './FailedStyles';
 
-export const Failed = () => <span className={ styles.wrapper }>Smth bad happened... :(</span>;
+export const Failed = () => {
+  const styles = useStyles();
+
+  return <span className={ styles.wrapper }>Smth bad happened... :(</span>;
+};
