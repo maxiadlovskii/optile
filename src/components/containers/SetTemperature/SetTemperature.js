@@ -9,7 +9,7 @@ export const SetTemperature = () => {
   const dispatch = useDispatch();
   const handleTempChange = useCallback(({ target: { value } }) => {
     dispatch(setTempKey(value));
-  }, []);
+  }, [ dispatch ]);
 
   return <SetTemperatureView value={ tempKey } handleChange={ handleTempChange } />;
 };

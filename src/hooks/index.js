@@ -22,7 +22,7 @@ export const useIsMobile = (maxWidth = 768) => {
     if (window.innerWidth > maxWidth && isMobile) {
       setIsMobile(false);
     }
-  }, [ width, isMobile ]);
+  }, [ width, isMobile, maxWidth ]);
 
   return { isMobile };
 };
@@ -33,13 +33,13 @@ export const useQuery = location => {
   const [ query, setUrlQuery ] = useState(queryString.parse(location || search));
   useMemo(() => {
     setUrlQuery(queryString.parse(search));
-  }, [ pathname, search ]);
+  }, [ search ]);
   const addQuery = useCallback(obj => {
     push(`${pathname}?${queryString.stringify({ ...query, ...obj })}`);
-  }, [ query ]);
+  }, [ query, pathname, push ]);
   const setQuery = useCallback(obj => {
     push(`${pathname}?${queryString.stringify(obj)}`);
-  }, [ pathname ]);
+  }, [ pathname, push ]);
   const clearQuery = useCallback(path => {
     push(path || pathname);
   }, [ push, pathname ]);
