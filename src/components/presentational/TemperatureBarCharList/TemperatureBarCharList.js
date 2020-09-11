@@ -7,7 +7,6 @@ import { useStyles } from './TemperatureBarCharListStyles';
 
 export const TemperatureBarCharList = ({ list, tempKey = 'tempC', unit = 'C' }) => {
   const styles = useStyles();
-  console.log(list);
 
   return (
     <article className={ styles.wrapper }>

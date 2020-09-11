@@ -13,10 +13,10 @@ export const useStyles = makeStyles(() => ({
     margin: '8px',
     cursor: 'pointer'
   },
-  isActive: {
-    border: '2px solid black',
+  isActive: ({ isMobile }) => ({
+    border: !isMobile && '2px solid black',
     cursor: 'initial'
-  },
+  }),
 
   cardContent: {
     position: 'relative'

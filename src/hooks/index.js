@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 
@@ -31,18 +31,18 @@ export const useQuery = location => {
   const { search, pathname } = useLocation();
   const { push } = useHistory();
   const [ query, setUrlQuery ] = useState(queryString.parse(location || search));
-  useEffect(() => {
+  useMemo(() => {
     setUrlQuery(queryString.parse(search));
   }, [ pathname, search ]);
-  const addQuery = obj => {
+  const addQuery = useCallback(obj => {
     push(`${pathname}?${queryString.stringify({ ...query, ...obj })}`);
-  };
-  const setQuery = obj => {
+  }, [ query ]);
+  const setQuery = useCallback(obj => {
     push(`${pathname}?${queryString.stringify(obj)}`);
-  };
-  const clearQuery = path => {
+  }, [ pathname ]);
+  const clearQuery = useCallback(path => {
     push(path || pathname);
-  };
+  }, [ push, pathname ]);
 
   return ({ query, addQuery, setQuery, clearQuery });
 };
